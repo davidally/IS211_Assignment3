@@ -7,8 +7,6 @@ import urllib2
 import argparse
 from datetime import datetime
 
-MY_URL = 'http://s3.amazonaws.com/cuny-is211-spring2015/weblog.csv'
-
 
 def downloadData(url):
 
@@ -16,7 +14,7 @@ def downloadData(url):
     return response
 
 
-def processData(data=downloadData(MY_URL)):
+def processData(data):
 
     parsed_file = csv.reader(data)
 
@@ -52,4 +50,20 @@ def processData(data=downloadData(MY_URL)):
         img_percent, top_browser)
 
 
-processData()
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('url', type=str,
+                        help='Enter a valid link to a CSV file.')
+    args = parser.parse_args()
+
+    try:
+        data_to_parse = downloadData(args.url)
+    except Exception:
+        print 'Something went wrong... try entering a valid URL.'
+        raise SystemExit
+    else:
+        processData(data_to_parse)
+
+
+if __name__ == '__main__':
+    main()
