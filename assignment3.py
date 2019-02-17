@@ -52,7 +52,7 @@ def processData(data):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('url', type=str,
+    parser.add_argument('url',
                         help='Enter a valid link to a CSV file.')
     args = parser.parse_args()
 
