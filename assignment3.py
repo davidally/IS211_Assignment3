@@ -18,26 +18,38 @@ def downloadData(url):
 
 def processData(data=downloadData(MY_URL)):
 
-    # Setting variables
     parsed_file = csv.reader(data)
+
+    # Declaring variables
     total_hits = 0
     img_hits = 0
-    # Identifies image file extensions at the end of a string
-    img_ext_pattern = r'\.(jpg|jpeg|gif|png)$'
+    browsers = {
+        'Chrome': 0,
+        'Firefox': 0,
+        'IE': 0,
+        'Safari': 0
+    }
 
+    # Checking data strings for browser type and requested file extensions
     for row in parsed_file:
-        if re.search(img_ext_pattern, row[0], re.IGNORECASE):
+        if re.search(r'\.(jpg|jpeg|gif|png)$', row[0], re.IGNORECASE):
             img_hits += 1
         # Each row is a hit and automatically tallied
         total_hits += 1
+        if re.search('Firefox', row[2], re.IGNORECASE):
+            browsers['Firefox'] += 1
+        elif re.search('MSIE', row[2]):
+            browsers['IE'] += 1
+        elif re.search('Safari', row[2]) and not re.search('Chrome', row[2]):
+            browsers['Safari'] += 1
+        elif re.search('Chrome', row[2]):
+            browsers['Chrome'] += 1
 
-    img_percent = (float(img_hits) / float(total_hits)) * 100
+    img_percent = (float(img_hits) / total_hits) * 100
+    top_browser = max(browsers, key=browsers.get)
 
-    print total_hits
-    print img_hits
-
-    print 'Image requests account for {}% of all requests.'.format(
-        img_percent)
+    print 'Image requests account for {}% of all requests. The most used browser was {}.'.format(
+        img_percent, top_browser)
 
 
 processData()
