@@ -9,13 +9,32 @@ from datetime import datetime
 
 
 def downloadData(url):
+    """This function takes in a URL linking
+    to a CSV file and downloads its data. 
+
+    Args:
+        url (string): A valid link to a CSV file.
+
+    Returns:
+        object: A file like object containing rows of data. 
+    """
 
     response = urllib2.urlopen(url)
     return response
 
 
 def processData(data):
+    """This takes in data from downloadData and
+    processes it. It will loop through the data
+    checking for specific image file extensions as
+    well as most popular browser usage. It will then
+    print out an informative string. 
 
+    Args:
+        data (object): A file like object containing rows of data.
+    """
+
+    # Storing the data in a readable format
     parsed_file = csv.reader(data)
 
     # Declaring variables
@@ -51,6 +70,14 @@ def processData(data):
 
 
 def main():
+    """This will parse the URL argument in order to download
+    CSV data. It will be passed to downloadData and further down
+    to processData for searching. 
+
+    Raises:
+        SystemExit: Exits the program if an error is raised. 
+    """
+
     parser = argparse.ArgumentParser()
     parser.add_argument('url',
                         help='Enter a valid link to a CSV file.')
