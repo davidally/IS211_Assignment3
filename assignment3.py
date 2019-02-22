@@ -34,7 +34,7 @@ def processData(data):
         data (object): A file like object containing rows of data.
     """
 
-    # Storing the data in a readable format
+    # Storing the data in an iterable format
     parsed_file = csv.reader(data)
 
     # Declaring variables
@@ -72,14 +72,14 @@ def processData(data):
 def main():
     """This will parse the URL argument in order to download
     CSV data. It will be passed to downloadData and further down
-    to processData for searching. 
+    to processData for searching.
 
     Raises:
-        SystemExit: Exits the program if an error is raised. 
+        SystemExit: Exits the program if an error is raised.
     """
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('url',
+    parser.add_argument('--url', action='store', type=str,
                         help='Enter a valid link to a CSV file.')
     args = parser.parse_args()
 
